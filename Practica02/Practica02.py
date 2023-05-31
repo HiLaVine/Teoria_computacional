@@ -20,31 +20,31 @@ class Automata: #automata encargado del analisis.
              ##Estado inicial
             if self.estado == "inicio":
                 if self.transicion in numeros:
-                    self.estado="auxDec"
+                    self.estado="entero"
                 elif self.transicion=='+' or self.transicion=='-':
                     self.estado="signo" 
                 elif self.transicion=='0':
                     self.estado="Cero"  
                 elif self.transicion=='/':
-                    self.estado="com"      
+                    self.estado="comen_0"      
                 elif self.transicion.isalpha()  or self.transicion=='_' or self.transicion=='$':
-                    self.estado="Alpha"                      
+                    self.estado="est_1"                      
                 else:
                     return False
 
-            ##Estado 'auxDec'    
-            elif self.estado =="auxDec": 
+            ##Estado 'entero'    
+            elif self.estado =="entero": 
                 if self.transicion == '.':
-                  self.estado='puntoE'    
+                  self.estado='dec_p_e'    
                 elif str.isdigit(self.transicion):
                   self.estado='Decimal' 
                 else: 
                     return False
                 
-            ##Estado 'puntoD'    
-            elif self.estado =="puntoD": 
+            ##Estado 'dec_c_p'    
+            elif self.estado =="dec_c_p": 
                 if str.isdigit(self.transicion):
-                  self.estado='DecimalsE' 
+                  self.estado='decimal_p' 
                 else: 
                     return False
 
@@ -52,31 +52,31 @@ class Automata: #automata encargado del analisis.
             ##Estado 'Decimal'    
             elif self.estado =="Decimal": 
                 if self.transicion == '.':
-                  self.estado='puntoD'  
+                  self.estado='dec_c_p'  
                 elif str.isdigit(self.transicion):
                   self.estado='Decimal' 
                 else: 
                     return False
                 
-            ##Estado 'puntoE'    
-            elif self.estado =='puntoE':
+            ##Estado 'dec_p_e'    
+            elif self.estado =='dec_p_e':
                 if str.isdigit(self.transicion):
-                  self.estado='DecimalsE2'      
+                  self.estado='decimal_e1'      
                 else: 
                     return False
 
             
-            ##Estado 'DecimalsE'    
-            elif self.estado =='DecimalsE':
+            ##Estado 'decimal_p'    
+            elif self.estado =='decimal_p':
                 if str.isdigit(self.transicion):
-                  self.estado='DecimalsE' 
+                  self.estado='decimal_p' 
                 else: 
                     return False   
                 
-            ##Estado 'DecimalsE2'    
-            elif self.estado =='DecimalsE2':
+            ##Estado 'decimal_e1'    
+            elif self.estado =='decimal_e1':
                 if str.isdigit(self.transicion):
-                  self.estado='DecimalsE2' 
+                  self.estado='decimal_e1' 
                 elif self.transicion=='E':
                   self.estado='E'                   
                 else: 
@@ -85,7 +85,7 @@ class Automata: #automata encargado del analisis.
             ##Estado 'signo'    
             elif self.estado =='signo':
                 if self.transicion in numeros:
-                  self.estado='auxDec'
+                  self.estado='entero'
                 elif self.transicion == '0':
                   self.estado='Cero'   
                 else: 
@@ -94,14 +94,14 @@ class Automata: #automata encargado del analisis.
             ##Estado 'aux'    
             elif self.estado =='aux':
                 if str.isdigit(self.transicion):
-                  self.estado='DecimalsE0'  
+                  self.estado='decimal_e0'  
                 else: 
                     return False   
                 
-            ##Estado 'DecimalsE0'    
-            elif self.estado =='DecimalsE0':
+            ##Estado 'decimal_e0'    
+            elif self.estado =='decimal_e0':
                 if str.isdigit(self.transicion):
-                  self.estado='DecimalsE0' 
+                  self.estado='decimal_e0' 
                 elif self.transicion=='E':
                   self.estado='E'                    
                 else: 
@@ -115,14 +115,14 @@ class Automata: #automata encargado del analisis.
                 elif self.transicion in octa_list:
                   self.estado='Octal'  
                 elif self.transicion=='X'or self.transicion=='x':
-                  self.estado='0X'                    
+                  self.estado='est_3'                    
                 else: 
                     return False 
                 
              ##Estado 'E'
             elif self.estado =='E':
                 if self.transicion=='+' or self.transicion=='-':   
-                    self.estado='Signo2'
+                    self.estado='signo_1'
                 elif str.isdigit(self.transicion):
                     self.estado='digitE'
                 else: 
@@ -138,19 +138,19 @@ class Automata: #automata encargado del analisis.
              ##Estado 'digitE'
             elif self.estado =='digitE':
                 if str.isdigit(self.transicion):
-                    self.estado='DecimalExp'
+                    self.estado='decimal_p'
                 else: 
                     return False
                 
-              ##Estado 'Signo2'
-            elif self.estado =='Signo2':              
+              ##Estado 'signo_1'
+            elif self.estado =='signo_1':              
                 if str.isdigit(self.transicion):
                     self.estado='digitE'
                 else: 
                     return False
 
-            ##Estado 'cero-x'    
-            elif self.estado =='0X':
+            ##Estado 'est_3'    
+            elif self.estado =='est_3':
                 if str.isdigit(self.transicion) or self.transicion in hexa:
                   self.estado='Hexadecimal'                     
                 else:
@@ -163,37 +163,37 @@ class Automata: #automata encargado del analisis.
                 else:
                  return False
 
-            ##Estado 'com'          
-            elif self.estado =='com':
+            ##Estado 'comen_0'          
+            elif self.estado =='comen_0':
                 if self.transicion=='*':
-                    self.estado='*'
+                    self.estado='comen_1'
                 elif self.transicion=='/':
-                   self.estado='Comentario'
+                   self.estado='comentario_s'
                 else: 
                     return False
                 
-            ##Estado '*'          
-            elif self.estado =='*':
+            ##Estado 'comen_1'          
+            elif self.estado =='comen_1':
                 if self.transicion=='*':
-                    self.estado='com2'
+                    self.estado='est_0'
                 else: 
-                    self.estado='*'
+                    self.estado='comen_1'
                 
-            ##Estado 'com2'          
-            elif self.estado =='com2':
+            ##Estado 'est_0'          
+            elif self.estado =='est_0':
                 if self.transicion=='/':
-                    self.estado='ComentarioAs'
+                    self.estado='comentario_as'
                 else: 
                     return False
 
-            elif self.estado =='Comentario':  
+            elif self.estado =='comentario_s':  
                 return True
 
             
-            ##Estado 'Alpha'          
-            elif self.estado =='Alpha':
+            ##Estado 'est_1'          
+            elif self.estado =='est_1':
                 if self.transicion.isalnum() or self.transicion=='_' or self.transicion=='$':
-                    self.estado='Alpha'
+                    self.estado='est_1'
          
                 else: 
                    return False
@@ -202,30 +202,30 @@ class Automata: #automata encargado del analisis.
             else:
               return False          
         
-        if self.estado=="DecimalsE":
+        if self.estado=="decimal_p":
             return True
-        elif self.estado=="DecimalsE2":
+        elif self.estado=="decimal_e1":
             return True    
-        elif self.estado=="DecimalsE0":
+        elif self.estado=="decimal_e0":
             return True        
         elif self.estado=="Decimal":
             return True
         elif self.estado=="Octal":
             return True
-        elif self.estado=="DecimalExp":
+        elif self.estado=="decimal_p":
             return True               
     
         elif self.estado=="Hexadecimal":
             return True 
-        elif self.estado=="Comentario":
+        elif self.estado=="comentario_s":
             return True
-        elif self.estado=="ComentarioAs":
+        elif self.estado=="comentario_as":
             return True 
-        elif self.estado=="auxDec":
+        elif self.estado=="entero":
             return True 
-        elif self.estado=="Alpha":
+        elif self.estado=="est_1":
             return True         
-        elif self.estado=="*":
+        elif self.estado=="comen_1":
             return False             
 
 def main(): #funcion principal 

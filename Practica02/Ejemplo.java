@@ -6,8 +6,8 @@ public class EjemploPracticaAnalizador {
      double PI = 3.1416, CteGrav = -6.674E-19;
      float prom = (float) 0.0
      double val#;
-     /* Calculos_generales
-     for ( int i=1 ; i < 100 ){
+     // Calculos_generales
+     /*for ( int i=1 ; i < 100 ){
          prom =+i;
           } 
       */
