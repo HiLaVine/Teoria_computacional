@@ -57,14 +57,13 @@ def archivos(): #funcion encargada de tomar el archivo original y tranformarlo a
     with open('archivo_copia.txt', 'w') as file: #abre el archivo en modo escritura. 
      file.write(filedata)    #ocupa la funcion .write para escribir en el archivo_copia todo lo que se guardo en filedata. 
 
-def palabras_reservadas(word):
-  with open('palabras_reservadas.txt') as file:
-    contents = file.read()
-  if word in contents:
-    return True
+def palabras_reservadas(word): #se encarga de revisar las palabras reservadas de java 
+  with open('palabras_reservadas.txt') as file:  #abre el archivo palabras_reservadas como file  
+    contents = file.read() #guarda en contents lo que hay con el archivo con la funcion file.read. 
+  if word in contents: #verficica si word esta en lo que se guardo en contents y verifica si esta.
+    return True  #devuelve True si la palabra es una palabra reservada
   else:
-    return False
-
+    return False  #devuelve False si la palabra no es una palabra reservada
 
 class Automata: #automata encargado del analisis. 
         
