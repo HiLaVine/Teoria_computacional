@@ -19,188 +19,195 @@ class Automata: #automata encargado del analisis.
                 
              ##Estado inicial
             if self.estado == "inicio":
-                if self.transicion in numeros:
+                if self.transicion in numeros: # Si la transición es un número, el estado pasa a ser "entero"
                     self.estado="entero"
-                elif self.transicion=='+' or self.transicion=='-':
+                elif self.transicion=='+' or self.transicion=='-': # Si la transición es "+" o "-", el estado pasa a ser "signo"
                     self.estado="signo" 
-                elif self.transicion=='0':
+                elif self.transicion=='0':   # Si la transición es "0", el estado pasa a ser "Cero"
                     self.estado="Cero"  
-                elif self.transicion=='/':
+                elif self.transicion=='/': # Si la transición es "/", el estado pasa a ser "comen_0"
                     self.estado="comen_0"      
-                elif self.transicion.isalpha()  or self.transicion=='_' or self.transicion=='$':
+                elif self.transicion.isalpha()  or self.transicion=='_' or self.transicion=='$': # Si la transición es alfabética, "_" o "$", el estado pasa a ser "est_1"
                     self.estado="est_1"                      
                 else:
                     return False
 
             ##Estado 'entero'    
             elif self.estado =="entero": 
-                if self.transicion == '.':
+                if self.transicion == '.':   # Si la transición es ".", el estado pasa a ser 'dec_p_e'
                   self.estado='dec_p_e'    
-                elif str.isdigit(self.transicion):
+                elif str.isdigit(self.transicion): # Si la transición es un dígito, el estado sigue siendo 'Decimal'
                   self.estado='Decimal' 
                 else: 
-                    return False
+                    return False # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
             ##Estado 'dec_c_p'    
             elif self.estado =="dec_c_p": 
-                if str.isdigit(self.transicion):
+                if str.isdigit(self.transicion): # Si la transición es un dígito, el estado pasa a ser 'decimal_p'
                   self.estado='decimal_p' 
                 else: 
-                    return False
+                    return False # Si ninguna condición se cumple, se devuelve False (error léxico)
 
         
             ##Estado 'Decimal'    
-            elif self.estado =="Decimal": 
+            elif self.estado =="Decimal": # Si la transición es ".", el estado pasa a ser 'dec_c_p'
                 if self.transicion == '.':
                   self.estado='dec_c_p'  
-                elif str.isdigit(self.transicion):
+                elif str.isdigit(self.transicion): # Si la transición es un dígito, el estado sigue siendo 'Decimal'
                   self.estado='Decimal' 
                 else: 
                     return False
                 
             ##Estado 'dec_p_e'    
-            elif self.estado =='dec_p_e':
-                if str.isdigit(self.transicion):
+            elif self.estado =='dec_p_e':  
+                if str.isdigit(self.transicion):   # Si la transición es un dígito, el estado pasa a ser 'decimal_e1'
                   self.estado='decimal_e1'      
                 else: 
-                    return False
+                    return False # Si ninguna condición se cumple, se devuelve False (error léxico)
 
             
             ##Estado 'decimal_p'    
-            elif self.estado =='decimal_p':
+            elif self.estado =='decimal_p':   # Si la transición es un dígito, el estado sigue siendo 'decimal_p'
                 if str.isdigit(self.transicion):
                   self.estado='decimal_p' 
                 else: 
-                    return False   
+                    return False    # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
             ##Estado 'decimal_e1'    
-            elif self.estado =='decimal_e1':
-                if str.isdigit(self.transicion):
+            elif self.estado =='decimal_e1':  # Si la transición es un dígito, el estado sigue siendo 'decimal_e1'
+                if str.isdigit(self.transicion): 
                   self.estado='decimal_e1' 
-                elif self.transicion=='E':
+                elif self.transicion=='E':  # Si la transición es 'E', el estado pasa a ser 'E'
                   self.estado='E'                   
                 else: 
-                    return False                   
+                    return False # Si ninguna condición se cumple, se devuelve False (error léxico)          
                 
             ##Estado 'signo'    
-            elif self.estado =='signo':
+            elif self.estado =='signo':  # Si la transición es un número, el estado pasa a ser 'entero'
                 if self.transicion in numeros:
                   self.estado='entero'
-                elif self.transicion == '0':
+                elif self.transicion == '0':  # Si la transición es '0', el estado pasa a ser 'Cero'
                   self.estado='Cero'   
+                elif self.transicion == 'i':  # Si la transición es 'i', el estado pasa a ser 'i_mas_menos'
+                  self.estado='Cero'
                 else: 
-                    return False    
+                    return False     # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
-            ##Estado 'aux'    
-            elif self.estado =='aux':
+            ##Estado 'est_2'    
+            elif self.estado =='est_2': # Si la transición es un dígito, el estado pasa a ser 'decimal_e0'
                 if str.isdigit(self.transicion):
                   self.estado='decimal_e0'  
                 else: 
-                    return False   
+                    return False    # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
             ##Estado 'decimal_e0'    
-            elif self.estado =='decimal_e0':
+            elif self.estado =='decimal_e0': # Si la transición es un dígito, el estado sigue siendo 'decimal_e0'
                 if str.isdigit(self.transicion):
                   self.estado='decimal_e0' 
-                elif self.transicion=='E':
+                elif self.transicion=='E': # Si la transición es 'E', el estado pasa a ser 'E'
                   self.estado='E'                    
                 else: 
-                    return False   
+                    return False    # Si ninguna condición se cumple, se devuelve False (error léxico)
 
                 
             ##Estado 'cero'    
-            elif self.estado =='Cero':
-                if self.transicion =='.':
-                  self.estado='aux' 
-                elif self.transicion in octa_list:
+            elif self.estado =='Cero': 
+                if self.transicion =='.': # Si la transición es '.', el estado pasa a ser 'est_2'
+                  self.estado='est_2' 
+                elif self.transicion in octa_list: # Si la transición es un dígito octal, el estado pasa a ser 'Octal'
                   self.estado='Octal'  
-                elif self.transicion=='X'or self.transicion=='x':
+                elif self.transicion=='X'or self.transicion=='x': # Si la transición es 'X' o 'x', el estado pasa a ser 'est_3'
                   self.estado='est_3'                    
                 else: 
-                    return False 
+                    return False   # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
              ##Estado 'E'
             elif self.estado =='E':
-                if self.transicion=='+' or self.transicion=='-':   
+                if self.transicion=='+' or self.transicion=='-':      # Si la transición es '+' o '-', el estado pasa a ser 'signo_1'
                     self.estado='signo_1'
-                elif str.isdigit(self.transicion):
-                    self.estado='digitE'
+                elif str.isdigit(self.transicion):  # Si la transición es un dígito, el estado pasa a ser 'e_1'
+                    self.estado='e_1'
                 else: 
-                    return False  
+                    return False  # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
             ##Estado 'Octal'  
             elif  self.estado=='Octal':
-                if self.transicion in octa_list:
+                if self.transicion in octa_list: # Si la transición es un dígito octal, el estado sigue siendo 'Octal'
                     self.estado='Octal'
                 else :
-                    return False
+                    return False # Si la transición no es un dígito octal, se devuelve False (error léxico)
                 
-             ##Estado 'digitE'
-            elif self.estado =='digitE':
-                if str.isdigit(self.transicion):
+             ##Estado 'e_1'
+            elif self.estado =='e_1':
+                if str.isdigit(self.transicion): # Si la transición es un dígito, el estado pasa a ser 'decimal_p'
                     self.estado='decimal_p'
                 else: 
-                    return False
+                    return False # Si la transición no es un dígito, se devuelve False (error léxico)
                 
               ##Estado 'signo_1'
             elif self.estado =='signo_1':              
-                if str.isdigit(self.transicion):
-                    self.estado='digitE'
+                if str.isdigit(self.transicion):  # Si la transición es un dígito, el estado pasa a ser 'e_1'
+                    self.estado='e_1'
                 else: 
-                    return False
+                    return False  # Si la transición no es un dígito, se devuelve False (error léxico)
 
             ##Estado 'est_3'    
             elif self.estado =='est_3':
-                if str.isdigit(self.transicion) or self.transicion in hexa:
+                if str.isdigit(self.transicion) or self.transicion in hexa: # Si la transición es un dígito o está en el conjunto de caracteres hexadecimales, el estado pasa a ser 'Hexadecimal
                   self.estado='Hexadecimal'                     
                 else:
-                  return False
+                  return False # Si la transición no es un dígito ni está en el conjunto hexadecimal, se devuelve False (error léxico)
 
             ##Estado 'Hexadecimal'          
-            elif self.estado =='Hexadecimal':
+            elif self.estado =='Hexadecimal': # Si la transición es un dígito o está en el conjunto de caracteres hexadecimales, el estado sigue siendo 'Hexadecimal'
                 if str.isdigit(self.transicion) or self.transicion in hexa:
                   self.estado='Hexadecimal' 
                 else:
-                 return False
+                 return False  # Si la transición no es un dígito ni está en el conjunto hexadecimal, se devuelve False (error léxico)
 
             ##Estado 'comen_0'          
-            elif self.estado =='comen_0':
+            elif self.estado =='comen_0': # Si la transición es '*', el estado pasa a ser 'comen_1'
                 if self.transicion=='*':
-                    self.estado='comen_1'
-                elif self.transicion=='/':
+                    self.estado='comen_1' 
+                elif self.transicion=='/': # Si la transición es '/', el estado pasa a ser 'comentario_s'
                    self.estado='comentario_s'
                 else: 
-                    return False
+                    return False # Si la transición no es '*' ni '/', se devuelve False (error léxico)
                 
             ##Estado 'comen_1'          
-            elif self.estado =='comen_1':
+            elif self.estado =='comen_1':  # Si la transición es '*', el estado pasa a ser 'est_0'
                 if self.transicion=='*':
                     self.estado='est_0'
                 else: 
-                    self.estado='comen_1'
+                    self.estado='comen_1' # Si la transición no es '*', el estado sigue siendo 'comen_1'
                 
             ##Estado 'est_0'          
             elif self.estado =='est_0':
-                if self.transicion=='/':
-                    self.estado='comentario_as'
+                if self.transicion=='/':  # Si la transición es '/', el estado pasa a ser 'comentario_as'
+                    self.estado='comentario_as' 
                 else: 
-                    return False
-
-            elif self.estado =='comentario_s':  
+                    return False  # Si la transición no es '/', se devuelve False (error léxico)
+                
+            ## Estado 'comentario_s'
+            elif self.estado =='comentario_s':   # Si el estado es 'comentario_s', se devuelve True para indicar que es un comentario válido
                 return True
 
             
             ##Estado 'est_1'          
             elif self.estado =='est_1':
-                if self.transicion.isalnum() or self.transicion=='_' or self.transicion=='$':
+                if self.transicion.isalnum() or self.transicion=='_' or self.transicion=='$':  # Si la transición es alfanumérica, '_', o '$', el estado se mantiene como 'est_1'
                     self.estado='est_1'
          
                 else: 
-                   return False
+                   return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
+            
+            ##Estado 'i_mas_menos'          
+            elif self.estado =='i_mas_menos':  # Si la transición es '*', el estado pasa a ser 'est_0'
+                    return True
 
            
             else:
-              return False          
+              return False   # Si ninguna de las condiciones anteriores se cumple, se devuelve False (error léxico)       
         
         if self.estado=="decimal_p":
             return True
