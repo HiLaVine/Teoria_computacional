@@ -1,8 +1,8 @@
 public class EjemploPracticaAnalizador {
     public static void void main(String[] args) {
      int octal1 = -0123, octa12 = 0381; 
-     short dato = 12; 
-     1.28E+89898
+     short dato = 12A12; 
+     
      double PI = 3.1416, CteGrav = -6.674E-19;
      float prom = (float) 0.0
      double val#;
@@ -11,9 +11,8 @@ public class EjemploPracticaAnalizador {
          prom =+i;
           } 
       */
-     double pot = 7.34E+1.4 
+     double pot = 7.34E+14
      val = CteGrav*dato*pot;
-     
-     System.out.println("Prom= " +(prom / PI) + "Result = " +( val + 0XA));
+     System.out.print ("Prom= " +(prom / PI) + "Result = " +( val + 0XAXB));
     }
 }
