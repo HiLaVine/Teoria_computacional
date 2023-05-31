@@ -27,8 +27,33 @@ class Automata: #automata encargado del analisis.
                     self.estado="Cero"  
                 elif self.transicion=='/': # Si la transición es "/", el estado pasa a ser "comen_0"
                     self.estado="comen_0"      
-                elif self.transicion.isalpha()  or self.transicion=='_' or self.transicion=='$': # Si la transición es alfabética, "_" o "$", el estado pasa a ser "est_1"
-                    self.estado="est_1"                      
+                elif self.transicion.isalpha()  or self.transicion=='_': # Si la transición es alfabética o "_", el estado pasa a ser "est_1"
+                    self.estado="est_1" 
+                elif self.transicion.isalpha(): # Si la transición es alfabética el estado pasa a ser "est_4"
+                    self.estado="est_4" 
+                else:
+                    return False
+                
+            ##Estado 'est_4'          
+            elif self.estado =='est_4':
+                if self.transicion == '+':   # Si la transición es +, el estado pasa a ser 'est_41'
+                  self.estado='est_41'
+                elif self.transicion== '-': # Si la transición es -, el estado pasa a ser 'est_43'
+                    self.estado='est_43'
+                else: 
+                   return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
+               
+             ##Estado 'est_41'          
+            elif self.estado =='est_41':
+                if self.transicion == '+':   # Si la transición es +, el estado pasa a ser 'est_42'
+                  self.estado='est_42'
+                else:
+                    return False
+                
+             ##Estado 'est_43'          
+            elif self.estado =='est_43':
+                if self.transicion == '-':   # Si la transición es - , el estado pasa a ser 'est_44'
+                  self.estado='est_44'
                 else:
                     return False
 
@@ -88,8 +113,8 @@ class Automata: #automata encargado del analisis.
                   self.estado='entero'
                 elif self.transicion == '0':  # Si la transición es '0', el estado pasa a ser 'Cero'
                   self.estado='Cero'   
-                elif self.transicion == 'i':  # Si la transición es 'i', el estado pasa a ser 'i_mas_menos'
-                  self.estado='Cero'
+                elif self.transicion.isalnum():  # Si la transición es caracter, el estado pasa a ser 'c_mas_menos'
+                  self.estado='c_mas_menos'
                 else: 
                     return False     # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
@@ -195,17 +220,22 @@ class Automata: #automata encargado del analisis.
             
             ##Estado 'est_1'          
             elif self.estado =='est_1':
-                if self.transicion.isalnum() or self.transicion=='_' or self.transicion=='$':  # Si la transición es alfanumérica, '_', o '$', el estado se mantiene como 'est_1'
+                if self.transicion.isalnum() or self.transicion=='_': # Si la transición es alfanumérica, '_', o '$', el estado se mantiene como 'est_1'
                     self.estado='est_1'
-         
                 else: 
                    return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
             
-            ##Estado 'i_mas_menos'          
-            elif self.estado =='i_mas_menos':  # Si la transición es '*', el estado pasa a ser 'est_0'
+            ##Estado 'c_mas_menos'          
+            elif self.estado =='c_mas_menos':  # Si el estado es c_mas_menos, se devuelve True para indicar un aumento esta correcto
                     return True
-
-           
+            
+            ##Estado 'est_1'          
+            elif self.estado =='est_1':
+                if self.transicion.isalnum() or self.transicion=='_': # Si la transición es alfanumérica, '_', o '$', el estado se mantiene como 'est_1'
+                    self.estado='est_1'
+                else: 
+                   return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
+            
             else:
               return False   # Si ninguna de las condiciones anteriores se cumple, se devuelve False (error léxico)       
         
@@ -220,8 +250,11 @@ class Automata: #automata encargado del analisis.
         elif self.estado=="Octal":
             return True
         elif self.estado=="decimal_p":
+            return True         
+        elif self.estado =='est_42':
+            return True
+        elif self.estado =='est_44':
             return True               
-    
         elif self.estado=="Hexadecimal":
             return True 
         elif self.estado=="comentario_s":
@@ -239,6 +272,7 @@ def main(): #funcion principal
 
     count = 0 #encargado de contar las lineas
     b=0 #bandera encargada de indicar cuando se encuentra un error. 
+    c=0
     
     archivos() #funcion encargada de tomar el archivo original y tranformarlo a un txt quitando los caracteres especiales. 
     
@@ -246,7 +280,7 @@ def main(): #funcion principal
         
      for line in file: #encargado de recorrer cada linea del archivo. 
          
-        count=count+1 #incrementa el contador de las lienas. 
+        count=count+1 #incrementa el contador de las lineas. 
         
         for word in line.split(): #encargado de revisar cada palabra de cada linea. 
             
@@ -264,9 +298,9 @@ def main(): #funcion principal
 def archivos(): #funcion encargada de tomar el archivo original y tranformarlo a un txt quitando los caracteres especiales. 
     
     original = 'Ejemplo.java' #archivo original. 
-    target = 'archivo_copia.txt' #archivvo donde se hace la copia. 
+    copia = 'archivo_copia.txt' #archivvo donde se hace la copia. 
 
-    shutil.copyfile(original, target) #funcion que hace la copia de los datos del original a la copia.  
+    shutil.copyfile(original, copia) #funcion que hace la copia de los datos del original a la copia.  
     
     with open('archivo_copia.txt', 'r') as file :#abre el archivo en modo lectura. 
      filedata = file.read() #lee el contenido completo del archivo y lo almacena en la variable "filedata"
@@ -296,7 +330,7 @@ def palabras_reservadas(word): #se encarga de revisar las palabras reservadas de
   else:
     return False  #devuelve False si la palabra no es una palabra reservada
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Verifica si el archivo se está ejecutando directamente
     main()      
 
 

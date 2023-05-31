@@ -4,13 +4,14 @@ public class EjemploPracticaAnalizador
      short dato   1212  
      
      double PI   3.1416  CteGrav   -6.674E-19 
-     float prom    float  0.0
+     floata prom    float  0.0
      double val 
-     // Calculos_generales
-     for  int i 1   i   100   
-         prom  +i 
+     // Calculos_generales 
+     for  int i 1   i   100   i++  
+         prom + i 
             
-     double pot   7.34E+14
-     System.out.print   Prom    + prom / PI  +  Result     +  val + 0XAB   
+     double pot   7.34E+14 
+     val   CteGrav * dato * pot 
+     System.out.println  Prom    + prom / PI  +  Result     +  val + 0xAB   
      
  
