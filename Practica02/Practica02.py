@@ -227,7 +227,7 @@ class Automata: #automata encargado del analisis.
                 if self.transicion=='*':
                     self.estado='comen_1' 
                 elif self.transicion=='/': # Si la transición es '/', el estado pasa a ser 'comentario_s'
-                   self.estado='comentario_s'
+                   self.estado='est_10'
                 else: 
                     return False # Si la transición no es '*' ni '/', se devuelve False (error léxico)
                 
@@ -247,9 +247,17 @@ class Automata: #automata encargado del analisis.
                 else: 
                     return False  # Si la transición no es '/', se devuelve False (error léxico)
                 
+            elif self.estado == 'est_10':
+                if str.isalpha(self.transicion) or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
+                    self.estado='comentario_s'
+                else: 
+                    return False
+                
+            
             ## Estado 'comentario_s'
             elif self.estado =='comentario_s':   # Si el estado es 'comentario_s', se devuelve True para indicar que es un comentario válido
                 return True
+            
             
             ##Estado 'c_mas_menos'          
             elif self.estado =='c_mas_menos':  # Si el estado es c_mas_menos, se devuelve True para indicar un aumento esta correcto
