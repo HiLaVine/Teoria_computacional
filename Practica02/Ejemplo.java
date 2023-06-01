@@ -6,12 +6,12 @@ public class EjemploPracticaAnalizador {
      double PI = 3.1416, CteGrav = -6.674E-19;
      floata prom = (float) 0.0
      double val;
-     // Calculos_generales 
+     // Calculos_generales  
      for (int i=1 ; i < 100 ; p++){
          prom +=i; 
-          } 
+          }
      double pot = 7.34E+14;
-     val = CteGrav*;
+    val = c*b*a;
      System.out.println("Prom= " +(prom / PI) + "Result = " +( val + 0xAB));
     }
 }

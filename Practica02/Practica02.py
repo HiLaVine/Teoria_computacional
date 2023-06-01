@@ -28,33 +28,33 @@ class Automata: #automata encargado del analisis.
                     self.estado="Cero"  
                 elif self.transicion=='/': # Si la transición es "/", el estado pasa a ser "comen_0"
                     self.estado="comen_0"      
-                elif self.transicion in letras or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
+                elif str.isalpha(self.transicion) or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
                     self.estado='variables'
                 else:
                     return False           
             
             ##Estado 'variables'          
             elif self.estado =='variables':
-                if self.transicion in letras or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
+                if str.isalpha(self.transicion) or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
                     self.estado='variables'
                 elif self.transicion == '+':
                     self.estado = 'incremento'
                 elif self.transicion == '-':
-                    self.estado = 'decremento'
-                elif self.transicion=='*':
-                    self.estado = 'est_4'
+                    self.estado = "decremento"
+                elif self.transicion =="*":
+                    self.estado = "est_4"
                 else: 
                    return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
                 
              # Estado 'est_4'
             elif self.estado == 'est_4':
-                if self.transicion in letras or self.transicion in numeros or self.transicion == '_':
+                if str.isalpha(self.transicion) or self.transicion in numeros or self.transicion == '_':
                     self.estado = 'est_5'
                 else:
                     return False 
                 
             elif self.estado == 'est_5':
-                if self.transicion in letras or self.transicion in numeros or self.transicion == '_':
+                if str.isalpha(self.transicion) or self.transicion in numeros or self.transicion == '_':
                     self.estado = 'est_5'
                 elif self.transicion == '*':
                     self.estado = 'est_6'
@@ -110,8 +110,10 @@ class Automata: #automata encargado del analisis.
                   self.estado='dec_c_p'  
                 elif str.isdigit(self.transicion): # Si la transición es un dígito, el estado sigue siendo 'Decimal'
                   self.estado='Decimal' 
+                elif self.transicion=='+' or self.transicion=='-':
+                    self.estado='signo'
                 else: 
-                    return False
+                    return False # Si ninguna condición se cumple, se devuelve False (error léxico)
                 
             ##Estado 'dec_p_e'    
             elif self.estado =='dec_p_e':  
@@ -238,7 +240,9 @@ class Automata: #automata encargado del analisis.
                 
             ##Estado 'est_0'          
             elif self.estado =='est_0':
-                if self.transicion=='/':  # Si la transición es '/', el estado pasa a ser 'comentario_as'
+                if str.isalpha(self.transicion) or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
+                    self.estado='est_0'
+                elif self.transicion=='/':  # Si la transición es '/', el estado pasa a ser 'comentario_as'
                     self.estado='comentario_as' 
                 else: 
                     return False  # Si la transición no es '/', se devuelve False (error léxico)
@@ -287,7 +291,7 @@ class Automata: #automata encargado del analisis.
         elif self.estado == 'mult_val':
             return True  
         elif self.estado=="comen_1":
-            return False            
+            return True            
 
 def main(): #funcion principal 
 
@@ -336,7 +340,7 @@ def archivos(): #funcion encargada de tomar el archivo original y tranformarlo a
     filedata = filedata.replace('}',' ') 
     filedata = filedata.replace('[',' ') 
     filedata = filedata.replace(']',' ')  
-    filedata = filedata.replace('"',' ')          
+    filedata = filedata.replace('"',' ')         
     
     with open('archivo_copia.txt', 'w') as file: #abre el archivo en modo escritura. 
      file.write(filedata)    #ocupa la funcion .write para escribir en el archivo_copia todo lo que se guardo en filedata. 
