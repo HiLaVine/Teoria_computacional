@@ -12,6 +12,7 @@ class Automata: #automata encargado del analisis.
         numeros = ['1', '2', '3','4','5','6','7','8','9'] #decimales del 1 al 9
         octa_list = ['0','1','2', '3','4','5','6','7']  #octales del 0 al 7
         hexa = ['A','B','C', 'D','E','F']   #hexadecimales de la A a la F
+        letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
         self.estado='inicio' # Asigna el valor 'inicio' al atributo 'estado' de la instancia actual. 
         for i in range(0,len(self.texto)):
@@ -27,35 +28,64 @@ class Automata: #automata encargado del analisis.
                     self.estado="Cero"  
                 elif self.transicion=='/': # Si la transición es "/", el estado pasa a ser "comen_0"
                     self.estado="comen_0"      
-                elif self.transicion.isalpha()  or self.transicion=='_': # Si la transición es alfabética o "_", el estado pasa a ser "est_1"
-                    self.estado="est_1" 
-                elif self.transicion.isalpha(): # Si la transición es alfabética el estado pasa a ser "est_4"
-                    self.estado="est_4" 
+                elif self.transicion in letras or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
+                    self.estado='variables'
                 else:
-                    return False
-                
-            ##Estado 'est_4'          
-            elif self.estado =='est_4':
-                if self.transicion == '+':   # Si la transición es +, el estado pasa a ser 'est_41'
-                  self.estado='est_41'
-                elif self.transicion== '-': # Si la transición es -, el estado pasa a ser 'est_43'
-                    self.estado='est_43'
+                    return False           
+            
+            ##Estado 'variables'          
+            elif self.estado =='variables':
+                if self.transicion in letras or self.transicion in numeros or self.transicion == '_': # Si la transición es alfanumérica, '_', el estado se mantiene como 'variables'
+                    self.estado='variables'
+                elif self.transicion == '+':
+                    self.estado = 'incremento'
+                elif self.transicion == '-':
+                    self.estado = 'decremento'
+                elif self.transicion=='*':
+                    self.estado = 'est_4'
                 else: 
                    return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
-               
-             ##Estado 'est_41'          
-            elif self.estado =='est_41':
-                if self.transicion == '+':   # Si la transición es +, el estado pasa a ser 'est_42'
-                  self.estado='est_42'
-                else:
-                    return False
                 
-             ##Estado 'est_43'          
-            elif self.estado =='est_43':
-                if self.transicion == '-':   # Si la transición es - , el estado pasa a ser 'est_44'
-                  self.estado='est_44'
+             # Estado 'est_4'
+            elif self.estado == 'est_4':
+                if self.transicion in letras or self.transicion in numeros or self.transicion == '_':
+                    self.estado = 'est_5'
                 else:
-                    return False
+                    return False 
+                
+            elif self.estado == 'est_5':
+                if self.transicion in letras or self.transicion in numeros or self.transicion == '_':
+                    self.estado = 'est_5'
+                elif self.transicion == '*':
+                    self.estado = 'est_6'
+                else:
+                    return False 
+            
+            elif self.estado == 'est_6':
+                if self.transicion in letras or self.transicion in numeros or self.transicion == '_':
+                    self.estado = 'est_7'
+                else:
+                    return False 
+                
+            elif self.estado == 'est_7':
+                if self.transicion in letras or self.transicion in numeros or self.transicion == '_':
+                    self.estado = 'est_5'
+                else:
+                    return False 
+    
+            ## Estado 'incremento'
+            elif self.estado == 'incremento':
+                if self.transicion == '+':
+                    self.estado = 'incremento_final'
+                else:
+                    return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
+    
+            ## Estado 'decremento'
+            elif self.estado == 'decremento':
+                if self.transicion == '-':
+                    self.estado = 'decremento_final'
+                else:
+                    return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
 
             ##Estado 'entero'    
             elif self.estado =="entero": 
@@ -216,25 +246,10 @@ class Automata: #automata encargado del analisis.
             ## Estado 'comentario_s'
             elif self.estado =='comentario_s':   # Si el estado es 'comentario_s', se devuelve True para indicar que es un comentario válido
                 return True
-
-            
-            ##Estado 'est_1'          
-            elif self.estado =='est_1':
-                if self.transicion.isalnum() or self.transicion=='_': # Si la transición es alfanumérica, '_', o '$', el estado se mantiene como 'est_1'
-                    self.estado='est_1'
-                else: 
-                   return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
             
             ##Estado 'c_mas_menos'          
             elif self.estado =='c_mas_menos':  # Si el estado es c_mas_menos, se devuelve True para indicar un aumento esta correcto
                     return True
-            
-            ##Estado 'est_1'          
-            elif self.estado =='est_1':
-                if self.transicion.isalnum() or self.transicion=='_': # Si la transición es alfanumérica, '_', o '$', el estado se mantiene como 'est_1'
-                    self.estado='est_1'
-                else: 
-                   return False  # Si la transición no cumple con las condiciones anteriores, se devuelve False (error léxico)
             
             else:
               return False   # Si ninguna de las condiciones anteriores se cumple, se devuelve False (error léxico)       
@@ -250,11 +265,7 @@ class Automata: #automata encargado del analisis.
         elif self.estado=="Octal":
             return True
         elif self.estado=="decimal_p":
-            return True         
-        elif self.estado =='est_42':
-            return True
-        elif self.estado =='est_44':
-            return True               
+            return True                       
         elif self.estado=="Hexadecimal":
             return True 
         elif self.estado=="comentario_s":
@@ -263,16 +274,25 @@ class Automata: #automata encargado del analisis.
             return True 
         elif self.estado=="entero":
             return True 
-        elif self.estado=="est_1":
-            return True         
+        elif self.estado=="variables":
+            return True  
+        elif self.estado=="est_5":
+            return True  
+        elif self.estado=="est_7":
+            return True  
+        elif self.estado == 'incremento_final':
+            return True  
+        elif self.estado == 'decremento_final':
+            return True  
+        elif self.estado == 'mult_val':
+            return True  
         elif self.estado=="comen_1":
-            return False             
+            return False            
 
 def main(): #funcion principal 
 
     count = 0 #encargado de contar las lineas
     b=0 #bandera encargada de indicar cuando se encuentra un error. 
-    c=0
     
     archivos() #funcion encargada de tomar el archivo original y tranformarlo a un txt quitando los caracteres especiales. 
     
@@ -285,13 +305,12 @@ def main(): #funcion principal
         for word in line.split(): #encargado de revisar cada palabra de cada linea. 
             
             if palabras_reservadas(word)==False : #verifica si la palabra es reservada
-
-               AFD=Automata(word) #creamos una instancia en la clase automata para llevar a cabo el analisis con el automata. 
+                AFD=Automata(word) #creamos una instancia en la clase automata para llevar a cabo el analisis con el automata. 
          
-               if AFD.analizador_lexico() == False: #si el analzador lexico retorna un falso agrega uno a b. 
-                b=1   
-                print("Error en la linea " + str(count)) # Si b es igual a toma el numero de linea de count y lo hace un string para concatenarlo a Error en la linea.  
-            
+                if AFD.analizador_lexico() == False: #si el analzador lexico retorna un falso agrega uno a b. 
+                    b=1   
+                    print("Error en la linea " + str(count)) # Si b es igual a toma el numero de linea de count y lo hace un string para concatenarlo a Error en la linea.
+             
     if b!=1: #si b es diferente de uno significa que no encontro errores e imprime eso. 
      print("No se han encontrado errores gramaticales en el archivo")   
      
