@@ -14,13 +14,7 @@ class automataPila: #Clase (Método Constructor)
     def GIC(self):
         operadores= ['+', '-', '*', '/', '%'] 
         masomenos = ['+', '-'] 
-        self.estado = 'q0' #Estado inicial
-        """
-        isaplha() Comprueba si todos los caracteres del texto son letras
-        isalnum() Comprueba si todos los caracteres del texto son alfanuméricos
-        isdigit() Compruebe si todos los caracteres del texto son dígitos
-        
-        """
+        self.estado = 'q0' #Estado inicial 
 
         for i in range(0, len(self.cadena)): #Recorre la cadena a validar
             #Recorre cada simbolo de la cadena para cambiara de transicion de acuerdo a la funcion de transferencia
