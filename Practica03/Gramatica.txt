@@ -11,6 +11,5 @@ P={
  D-> I|N|(D)|D+D|D-D|D/D|D*D|D%D
  I-> _ |a|..|z||A|..|Z||II||IN||INI
  N->0|..|9|NN
-
-          
+         
 }
