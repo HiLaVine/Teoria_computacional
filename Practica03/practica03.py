@@ -5,7 +5,6 @@
 #Estrutura del Automata de Pila
 class automataPila: #Clase (Método Constructor)
 
-    #Funcion ()
     def __init__(self, cadena):
         self.cadena = cadena #self hace referencia a un objeto
         self.pila= [] #Arreglo del Automata de Pila
@@ -20,7 +19,7 @@ class automataPila: #Clase (Método Constructor)
             #Recorre cada simbolo de la cadena para cambiara de transicion de acuerdo a la funcion de transferencia
             self.transicion = self.cadena[i]
 
-
+            #Estado q0
             if self.estado == 'q0': #Simbolo inicial de la Pila
                 if self.transicion.isalpha(): #Comprueba si el símbolo es alfanumérico
                     self.estado = 'q1' # Cambia al estado q1
@@ -115,3 +114,17 @@ def main():
 
 if __name__ == "__main__":  # Verifica si el archivo se está ejecutando directamente
     main()
+    
+    
+    
+'''
+Gramatica = {ST, SNT, A, RP}
+ST={a, b, c, d, e, f, g, h, i, j, k, l, m, n,o, p, q, r, s, t, u, v, w, x, y, z, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, +, -, /, %, *, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, =, ;}
+
+SNT={X1, X2, X3, X4} 
+A = X1; 
+RP={    X1 -> X3 = X2;
+        X2 -> X3 | X4 | X2 + X2 | X2 - X2 | X2 / X2 | X2 * X2 | X2 % X2 | (X2)  
+        X3 -> a | ... | z |  A | ... | Z | X3 X3 | X2 X4 |X2 X4 X2
+        X4 -> 0|..|9 | X4 X4 }
+'''
