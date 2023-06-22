@@ -104,7 +104,7 @@ class automata_pila:
 
 
 def main():
-    print("Práctica No.3 Gramáticas Independientes del Contexto")
+    print("Práctica 3. Gramáticas independientes del contexto")
     print("Gramatica independiente del contexto para validar expresiones del lenguaje de programación C")
     w = input("Introduzca la cadena para validar: ")#Se introduce la cadena a evaluar. 
     validar_cadena = automata_pila(w)  #Crea una instancia de la clase automataPila y pasa la cadena para validarla. 
