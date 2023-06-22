@@ -3,14 +3,14 @@
 ### Teoria Computacional ####
 
 #Estrutura del Automata de Pila
-class automataPila: #Clase (Método Constructor)
+class automata_pila: 
 
     def __init__(self, cadena):
         self.cadena = cadena #self hace referencia a un objeto
         self.pila= [] #Arreglo del Automata de Pila
 
 #Elementos de la Gramatica
-    def GIC(self):
+    def gramatica(self):
         operadores= ['+', '-', '*', '/', '%'] 
         masomenos = ['+', '-'] 
         self.estado = 'q0' #Estado inicial 
@@ -102,12 +102,13 @@ class automataPila: #Clase (Método Constructor)
             return True
 
 
+
 def main():
-    print("Práctica No.3 Gramáticas Independientes del Contexto (GIC)")
-    print("GIC para validar expresiones del Lenguaje de Programación C")
+    print("Práctica No.3 Gramáticas Independientes del Contexto")
+    print("Gramatica independiente del contexto para validar expresiones del lenguaje de programación C")
     w = input("Introduzca la cadena para validar: ")#Se introduce la cadena a evaluar. 
-    validarCadena = automataPila(w)  #Crea una instancia de la clase automataPila y pasa la cadena para validarla. 
-    if validarCadena.GIC() == True: #Si el retorno es true, la cadena es valida. 
+    validar_cadena = automata_pila(w)  #Crea una instancia de la clase automataPila y pasa la cadena para validarla. 
+    if validar_cadena.gramatica() == True: #Si el retorno es true, la cadena es valida. 
         print('Cadena Válida')
     else:
         print('Cadena No Válida') #Si no se cumple, la cadena no es valida. 
