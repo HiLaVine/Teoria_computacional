@@ -12,7 +12,7 @@ class automata_pila:
 #Elementos de la Gramatica
     def gramatica(self):
         operadores= ['+', '-', '*', '/', '%'] 
-        masomenos = ['+', '-'] 
+        masomenos = ['+', '-']
         self.estado = 'q0' #Estado inicial 
 
         for i in range(0, len(self.cadena)): #Recorre la cadena a validar
@@ -35,10 +35,21 @@ class automata_pila:
                     self.estado = 'q2' #Cambia al estado q2
                 else:
                     break #Sale del bucle si el símbolo no cumple con las condiciones anteriores
-
+            
+            elif self.estado == 'igu': #Estado Inicial
+                # Funciones de Transferencia de q1
+                if self.transicion.isalnum(): # Comprueba si el símbolo es alfanumérico
+                    self.estado = 'igu' #se mantiene en el estado q1
+                elif self.transicion == '=': #Comprueba si el símbolo es un signo igual
+                    self.estado = 'q1' #Cambia al estado q2
+                else:
+                    break #Sale del bucle si el símbolo no cumple con las condiciones anteriores
+                
             #Estado q2
             elif self.estado == 'q2':
                 # Funciones de Transferencia de q2
+                if self.transicion == '=':
+                    self.estado = 'igu'
                 if self.transicion == '(': # Comprueba si el símbolo es un paréntesis abierto
                     self.pila.append('(')  # Agrega el paréntesis a la pila
                     self.estado = 'q2' # Se mantiene en el estado q2
@@ -49,8 +60,8 @@ class automata_pila:
                 elif self.transicion in masomenos:# Comprueba si el símbolo es un símbolo de más o menos
                     self.estado = 'q3' # Cambia al estado q3
                 else:
-                    break # Sale del bucle si el símbolo no cumple con las condiciones anteriores
-
+                    break # Sale del bucle si el símbolo no cumple con las condiciones anteriores    
+            
             #Estado q3
             elif self.estado == 'q3':
                 # Funciones de Transferencia de q3
@@ -91,7 +102,10 @@ class automata_pila:
                 if self.transicion in operadores: # Comprueba si el símbolo es uno de los operadores definidos
                     self.estado = 'q2' # Cambia al estado q2
                 elif self.transicion == ')': # Comprueba si el símbolo es un paréntesis cerrado
-                    self.pila.pop() # Elimina el paréntesis de la pila
+                    if not self.pila:
+                        return False 
+                    else: 
+                        self.pila.pop() # Elimina el paréntesis de la pila
                     self.estado = 'q5' # Se mantiene en el estado q5
                 elif self.transicion == ';': # Comprueba si el símbolo es un punto y coma
                     self.estado = 'q6' # Estado de Aceptación
@@ -100,6 +114,8 @@ class automata_pila:
 
         if not self.pila and self.estado == 'q6': #verifica si la pila esta vacia y si estamos en el estado de aceptación. 
             return True
+        else: 
+            return False
 
 
 
